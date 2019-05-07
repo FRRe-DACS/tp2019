@@ -16,7 +16,13 @@
 package ar.edu.utn.frre.dacs.hospital.profesionales;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
+import ar.edu.utn.frre.dacs.hospital.profesionales.config.RestConfiguration;
 
 
 /**
@@ -25,7 +31,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Dr. Jorge Villaverde
  * @version 1.0
  */
+
+@EnableJpaAuditing
 @SpringBootApplication
+@Import({ RestConfiguration.class })
+@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class Application {
 
 	/**
