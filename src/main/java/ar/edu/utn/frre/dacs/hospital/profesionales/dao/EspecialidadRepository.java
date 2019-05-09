@@ -15,25 +15,18 @@
  */
 package ar.edu.utn.frre.dacs.hospital.profesionales.dao;
 
-import java.util.Optional;
-import java.util.Set;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import ar.edu.utn.frre.dacs.hospital.profesionales.model.Especialidad;
-import ar.edu.utn.frre.dacs.hospital.profesionales.model.Medico;
 
 /**
- * Repositorio de Acceso a Datos para <code>Medico</code>.
+ * Repositorio de Acceso a Datos para <code>Especialidad</code>.
  * 
  * @author Dr. Jorge Villaverde
  * @version 1.0
  */
 @Repository
-public interface MedicoRepository extends JpaRepository<Medico, Long>{
+public interface EspecialidadRepository extends JpaRepository<Especialidad, Long>{
 
-	Optional<Medico> findByNumeroMatricula(Integer numeroMatricula);
-	
-	Set<Medico> findByEspecialidad(Especialidad especialidad);
 }

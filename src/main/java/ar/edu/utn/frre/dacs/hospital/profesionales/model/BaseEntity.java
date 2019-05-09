@@ -24,13 +24,17 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
- * 
- * 
+ * Entidad Base.
+ * Posee la descripción común a todas las entidades del sistema.
  * @author Dr. Jorge Villaverde
  * @version 1.0
  */
 @MappedSuperclass
+@ApiModel(value = "Entidad Base", description = "Posee la descripción común a todas las entidades del sistema.")
 public abstract class BaseEntity implements Serializable {
 
 	/**
@@ -38,11 +42,18 @@ public abstract class BaseEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 1241838890268869334L;
 
+	/**
+	 * Id de la Entidad
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
+    @ApiModelProperty(notes = "Identificador único. No pueden haber dos entidades del mismo tipo con el mismo identificador.", example = "1", required = true, position = 0)
 	private Long id;
 
+	/**
+	 * Version de la entidad. Usado por JPA.
+	 */
 	@Version
 	private Integer version;
 	
