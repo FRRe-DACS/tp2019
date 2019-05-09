@@ -1,3 +1,24 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.4.RELEASE'
+	}
+		
+	repositories {
+		mavenCentral()
+		maven { url "https://plugins.gradle.org/m2/" }
+		maven { url 'https://jitpack.io' }
+		maven { url "http://repo.maven.apache.org/maven2"}
+	}
+	dependencies {
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
+		classpath 'com.bmuschko:gradle-docker-plugin:3.2.5'
+	}
+	
+}
+
+
 plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
 	id 'java'
@@ -8,6 +29,11 @@ apply plugin: 'io.spring.dependency-management'
 group = 'ar.edu.utn.frre.dacs.hospital.profesionales'
 version = '0.0.1'
 sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
 
 repositories {
 	mavenCentral()
@@ -30,3 +56,45 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+// Use Docker plugin to allow for creating an image.
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+def tagNumber = "${version}"
+
+docker {
+    url = (System.getenv("DOCKER_HOST") != null) ? System.getenv("DOCKER_HOST") : dockerProtocol + '://' + dockerHostname + ':' + dockerPort
+    registryCredentials {
+        url = registryUrl
+        username = registryUsername
+        password = registryPassword
+        email = registryEmail
+    }
+}
+
+// Create a Dockerfile.
+task dockerFile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile, dependsOn: bootJar) {
+    destFile = project.file('build/docker/Dockerfile')
+	from "openjdk:8-jre-alpine"
+	
+	copyFile("${project.name}-${project.version}.jar", "/")
+			
+	defaultCommand 'java', '-jar', "/${project.name}-${project.version}.jar", ""
+}
+
+// Copy artifact to Docker input folder.
+task copyArtifactToDocker(type: Copy, dependsOn: dockerFile) {
+    from "${buildDir}/libs/${project.name}-${project.version}.jar"
+    into 'build/docker'
+}
+
+// Build an image from the Dockerfile.
+task dockerImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage, dependsOn: copyArtifactToDocker) {
+    inputDir = project.file('build/docker')
+	tag = "${dockerRepository}/${projectId}/${project.name}:${tagNumber}"
+}
+
+// Push image to remote repository.
+task dockerPush(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage, dependsOn: dockerImage) {
+    imageName = "${dockerRepository}/${projectId}/${project.name}".toString()
+    tag = "${tagNumber}".toString()
+}

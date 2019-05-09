@@ -20,6 +20,8 @@ import java.util.HashMap;
 import javax.sql.DataSource;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +46,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 		entityManagerFactoryRef = "defaultEntityManagerFactory", 
 		transactionManagerRef = "defaultTransactionManager")
 public class RestConfiguration {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(RestConfiguration.class);
 
     @Autowired
     private Environment env;
@@ -70,6 +74,10 @@ public class RestConfiguration {
 	@Bean
 	@Primary
 	public DataSource defaultDataSource() {
+		LOGGER.info("User URL: " + env.getProperty("spring.datasource.url"));
+		LOGGER.info("User Username: " + env.getProperty("spring.datasource.username"));
+		LOGGER.info("User Password: " + env.getProperty("spring.datasource.password"));
+		
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setUrl(env.getProperty("spring.datasource.url"));
 		dataSource.setUsername(env.getProperty("spring.datasource.username"));

@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/api/logs")
+@RequestMapping("/api/medico")
 @Api("Set of endpoints for Creating and Retrieving Activity Logs")
 public class MedicoController {
 
