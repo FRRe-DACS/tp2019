@@ -15,3 +15,9 @@
 cd docker
 docker-compose up -d
 ```
+
+## Acceder a Swagger
+
+```
+http://localhost:8080/swagger-ui.html
+```
