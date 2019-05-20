@@ -46,7 +46,7 @@ public abstract class BaseEntity implements Serializable {
 	 * Id de la Entidad
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "entity_gen")
 	@Column(name = "id")
     @ApiModelProperty(notes = "Identificador único. No pueden haber dos entidades del mismo tipo con el mismo identificador.", example = "1", required = true, position = 0)
 	private Long id;

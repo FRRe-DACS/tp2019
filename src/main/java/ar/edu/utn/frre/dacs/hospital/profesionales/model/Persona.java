@@ -68,6 +68,7 @@ public abstract class Persona extends BaseEntity {
 	 */
 	@NotNull
 	@Temporal(TemporalType.DATE)
+	@Column(name = "fecha_nacimiento", nullable = false)
 	@Past
     @ApiModelProperty(notes = "Fecha de Nacimeinto de la persona", example = "2019-01-01", required = true, position = 0)
 	private Date fechaNacimiento;

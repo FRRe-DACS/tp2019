@@ -64,7 +64,7 @@ public class RestConfiguration {
 		vendorAdapter.setShowSql(true);
 		em.setJpaVendorAdapter(vendorAdapter);
 		HashMap<String, Object> properties = new HashMap<>();
-		properties.put("hibernate.hbm2ddl.auto", "update");
+		properties.put("hibernate.hbm2ddl.auto", "validate");
 		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		properties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
 		em.setJpaPropertyMap(properties);

@@ -20,14 +20,15 @@ buildscript {
 
 
 plugins {
-	id 'org.springframework.boot' version '2.1.4.RELEASE'
 	id 'java'
+	id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id "org.flywaydb.flyway" version "5.2.4"
 }
 
 apply plugin: 'io.spring.dependency-management'
 
 group = 'ar.edu.utn.frre.dacs.hospital.profesionales'
-version = '0.0.2'
+version = '0.0.3'
 sourceCompatibility = '1.8'
 
 repositories {
@@ -47,13 +48,21 @@ dependencies {
 	// Model Mapper
 	compile('org.modelmapper:modelmapper:2.3.0')
 	
-	//Swagger
+	// Swagger
 	compile('io.springfox:springfox-swagger2:2.9.2')
 	compile('io.springfox:springfox-swagger-ui:2.9.2')
 	compile('io.springfox:springfox-bean-validators:2.9.2')
 
+	// Flyway DB
+    compile("org.flywaydb:flyway-core:5.2.4")
+
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+flyway {
+    schemas = ['public']
+    table='flyway_schema_history'
 }
 
 // Use Docker plugin to allow for creating an image.
@@ -90,7 +99,9 @@ task copyArtifactToDocker(type: Copy, dependsOn: dockerFile) {
 // Build an image from the Dockerfile.
 task dockerImage(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage, dependsOn: copyArtifactToDocker) {
     inputDir = project.file('build/docker')
-	tag = "${dockerRepository}/${projectId}/${project.name}:${tagNumber}"
+	def versionTag = "${dockerRepository}/${projectId}/${project.name}:${tagNumber}".toString()
+	def latestTag = "${dockerRepository}/${projectId}/${project.name}:latest".toString()
+	tags = [versionTag, latestTag]
 }
 
 // Push image to remote repository.

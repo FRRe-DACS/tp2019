@@ -21,6 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -38,6 +39,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name = "especialidad")
+@SequenceGenerator(name = "entity_gen", sequenceName = "especialidad_id_seq", initialValue = 100)
 @ApiModel(value = "Escialidad", description = "Representa a un Especialidad Médica en el sistema.")
 public class Especialidad extends BaseEntity {
 
@@ -60,8 +62,7 @@ public class Especialidad extends BaseEntity {
 	/**
 	 * Descripción de la especialidad.
 	 */
-	@Size(max = 255)
-	@Column(name = "descripcion", length = 255, nullable = true)
+	@Column(name = "descripcion", nullable = true)
     @ApiModelProperty(notes = "Descripción de la especialidad.", example = "Descripción de Pediatría", required = false, position = 1)
 	private String descripcion;
 

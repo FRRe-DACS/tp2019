@@ -10,14 +10,14 @@ services:
       - POSTGRES_DB=medicos
     volumes:
       - postgres_medicos:/var/lib/postgresql/data
-  medicos-backend:
-    image: frredacs/medicos:latest
-    restart: always
-    ports:
-     - "8080:8080"
-    environment:
-      - DB_URL=jdbc:postgresql://medicos-db:5432/medicos
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=password
+#  medicos-backend:
+#    image: frredacs/medicos:latest
+#    restart: always
+#    ports:
+#     - "8080:8080"
+#    environment:
+#      - DB_URL=jdbc:postgresql://medicos-db:5432/medicos
+#      - DB_USERNAME=postgres
+#      - DB_PASSWORD=password
 volumes:
   postgres_medicos:

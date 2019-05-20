@@ -20,6 +20,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -34,6 +35,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @Entity
 @Table(name = "medico")
+@SequenceGenerator(name = "entity_gen", sequenceName = "medico_id_seq", initialValue = 100)
 @ApiModel(value = "Médico", description = "Representa a un Profesional Médico en el sistema.")
 public class Medico extends Persona {
 
