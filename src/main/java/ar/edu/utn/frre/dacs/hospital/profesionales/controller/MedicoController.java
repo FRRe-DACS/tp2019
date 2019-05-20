@@ -35,8 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.utn.frre.dacs.hospital.profesionales.dao.EspecialidadRepository;
 import ar.edu.utn.frre.dacs.hospital.profesionales.dao.MedicoRepository;
+import ar.edu.utn.frre.dacs.hospital.profesionales.dao.ObraSocialRepository;
 import ar.edu.utn.frre.dacs.hospital.profesionales.model.Especialidad;
 import ar.edu.utn.frre.dacs.hospital.profesionales.model.Medico;
+import ar.edu.utn.frre.dacs.hospital.profesionales.model.ObraSocial;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -59,6 +61,9 @@ public class MedicoController {
 	@Autowired
 	private EspecialidadRepository especialidadRepository;
 
+	@Autowired
+	private ObraSocialRepository obraSocialRepository;
+	
 	// Operation --------------------------------------------------------------
 
 	@ApiOperation(value = "Pagina de Medicos", response = Page.class)
@@ -92,7 +97,23 @@ public class MedicoController {
 		Set<Medico> ret = repository.findByEspecialidad(especialidad);
 		return ResponseEntity.ok(ret);
 	}
+
+	@GetMapping("/especialidad/{idEspecialidad}/obraSocial/{idObraSocial}")
+	@ApiOperation(value = ".", response = ResponseEntity.class)
+	public ResponseEntity<Set<Medico>> findByEspecialidadAndObraSocial(@PathVariable Long idEspecialidad, @PathVariable Long idObraSocial) {
+		Especialidad especialidad = especialidadRepository.getOne(idEspecialidad);
+		ObraSocial obraSocial = obraSocialRepository.getOne(idObraSocial);
+		Set<Medico> ret = repository.findByEspecialidadAndObraSociales(especialidad, obraSocial);
+		return ResponseEntity.ok(ret);
+	}
 	
+	@GetMapping("/obraSocial/{idObraSocial}")
+	@ApiOperation(value = ".", response = ResponseEntity.class)
+	public ResponseEntity<Set<Medico>> findByObraSocial(@PathVariable Long idObraSocial) {
+		ObraSocial obraSocial = obraSocialRepository.getOne(idObraSocial);
+		Set<Medico> ret = repository.findByObraSociales(obraSocial);
+		return ResponseEntity.ok(ret);
+	}
 	
 	@PostMapping()
 	@ApiOperation(value = "Crea un Medico.", response = ResponseEntity.class)

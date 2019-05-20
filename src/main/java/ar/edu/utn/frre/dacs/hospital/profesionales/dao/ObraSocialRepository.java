@@ -16,29 +16,26 @@
 package ar.edu.utn.frre.dacs.hospital.profesionales.dao;
 
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import ar.edu.utn.frre.dacs.hospital.profesionales.model.Especialidad;
-import ar.edu.utn.frre.dacs.hospital.profesionales.model.Medico;
 import ar.edu.utn.frre.dacs.hospital.profesionales.model.ObraSocial;
 
 /**
- * Repositorio de Acceso a Datos para <code>Medico</code>.
+ * Repositorio de Acceso a Datos para <code>ObraSocial</code>.
  * 
  * @author Dr. Jorge Villaverde
  * @version 1.0
  */
 @Repository
-public interface MedicoRepository extends JpaRepository<Medico, Long>{
+public interface ObraSocialRepository extends JpaRepository<ObraSocial, Long>{
 
-	Optional<Medico> findByNumeroMatricula(Integer numeroMatricula);
-	
-	Set<Medico> findByEspecialidad(Especialidad especialidad);
+	/**
+	 * Busca una Obra Social por el R
+	 * @param nros
+	 * @return
+	 */
+	Optional<ObraSocial> findByRnos(Integer rnos);
 
-	Set<Medico> findByObraSociales(ObraSocial obraSocial);
-
-	Set<Medico> findByEspecialidadAndObraSociales(Especialidad especialidad, ObraSocial obraSocial);
 }

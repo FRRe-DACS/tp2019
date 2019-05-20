@@ -15,14 +15,22 @@
  */
 package ar.edu.utn.frre.dacs.hospital.profesionales.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -58,12 +66,24 @@ public class Medico extends Persona {
 	/**
 	 * Especialidades del médico
 	 */
+	@JsonIgnore
 	@NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_especialidad", nullable = false)
     @ApiModelProperty(notes = "Especialidad del Medico", position = 1)
 	private Especialidad especialidad;
 	
+	@JsonIgnore
+	@ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        })
+        @JoinTable(name = "medico_obra_social",
+            joinColumns = @JoinColumn(name = "medico_id"),
+            inverseJoinColumns = @JoinColumn(name = "obra_social_id")
+        )
+    private Set<ObraSocial> obraSociales = new HashSet<ObraSocial>();
+     	
 	// Getters/Setters --------------------------------------------------------
 	
 	public Integer getNumeroMatricula() {
@@ -80,5 +100,13 @@ public class Medico extends Persona {
 
 	public void setEspecialidad(Especialidad especialidad) {
 		this.especialidad = especialidad;
+	}
+
+	public Set<ObraSocial> getObraSociales() {
+		return obraSociales;
+	}
+
+	public void setObraSociales(Set<ObraSocial> obraSociales) {
+		this.obraSociales = obraSociales;
 	}
 }
