@@ -6,4 +6,13 @@ services:
 
 before_script:
 - docker pull openjdk:8-jre-alpine
-script: ./gradlew dockerImage
+script: 
+- |
+  echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin
+  if [[ "$TRAVIS_PULL_REQUEST" == "false" ]] && [[ "$TRAVIS_BRANCH" == "master" ]]; then
+    echo "On Branch $TRAVIS_BRANCH, building Latest images"
+    ./gradlew dockerPush
+  else
+    echo "On Branch $TRAVIS_BRANCH, checking build"
+    ./gradlew check
+  fi
