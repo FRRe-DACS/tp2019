@@ -11,7 +11,7 @@ services:
     volumes:
       - postgres_medicos:/var/lib/postgresql/data
   medicos-backend:
-    image: frredacs/medicos:latest
+    image: frredacs/medicos-backend:latest
     restart: always
     ports:
      - "8080:8080"
