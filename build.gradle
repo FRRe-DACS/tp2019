@@ -76,14 +76,17 @@ if (System.getenv("DOCKER_REGISTRY_USERNAME") != null) registryUsername = System
 if (System.getenv("DOCKER_REGISTRY_PASSWORD") != null) registryPassword = System.getenv("DOCKER_REGISTRY_PASSWORD")
 if (System.getenv("DOCKER_REGISTRY_EMAIL") != null) registryEmail = System.getenv("DOCKER_REGISTRY_EMAIL")
 	
+def tagNumber = "${version}"
+if (System.getenv("TRAVIS_BUILD_NUMBER") != null) tagNumber = System.getenv("TRAVIS_BUILD_NUMBER")
+
 docker {
     url = (System.getenv("DOCKER_HOST") != null) ? System.getenv("DOCKER_HOST") : dockerProtocol + '://' + dockerHostname + ':' + dockerPort
     registryCredentials {
-        url = registryUrl
-        username = registryUsername
-        password = registryPassword
-        email = registryEmail
-	}
+	url = registryUrl
+	username = registryUsername
+	password = registryPassword
+	email = registryEmail
+    }
 }
 
 // Create a Dockerfile.
