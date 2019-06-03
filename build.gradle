@@ -68,8 +68,6 @@ flyway {
 // Use Docker plugin to allow for creating an image.
 apply plugin: 'com.bmuschko.docker-remote-api'
 
-def tagNumber = "${version}"
-
 // Allow Docker settings to be overridden by build environment.
 if (System.getenv("DOCKER_REGISTRY_URL") != null) registryUrl = System.getenv("DOCKER_REGISTRY_URL")
 if (System.getenv("DOCKER_REGISTRY_USERNAME") != null) registryUsername = System.getenv("DOCKER_REGISTRY_USERNAME")
