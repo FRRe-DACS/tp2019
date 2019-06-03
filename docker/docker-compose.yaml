@@ -14,7 +14,7 @@ services:
     image: frredacs/medicos-backend:latest
     restart: always
     ports:
-     - "8080:8080"
+     - "8081:8081"
     environment:
       - DB_URL=jdbc:postgresql://medicos-db:5432/medicos
       - DB_USERNAME=postgres
