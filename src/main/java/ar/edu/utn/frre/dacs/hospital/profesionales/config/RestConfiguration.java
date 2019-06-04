@@ -102,7 +102,7 @@ public class RestConfiguration {
     }
     
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsFilter swaggerCorsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         // Allow anyone and anything access. Probably ok for Swagger spec
